@@ -14,6 +14,6 @@ void testRotarySW() {
     Serial.printf("Please change rotary switch to %d\n", bulleye);
     
     while ( readSwitch() != bulleye ) ;
-    Serial.println("Please rotary switch test OK");
+    Serial.println("Rotary switch test is OK");
     summary[SW][1] = '0';
 }

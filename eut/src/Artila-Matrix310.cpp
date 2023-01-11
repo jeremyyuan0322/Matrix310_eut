@@ -3,7 +3,7 @@
  *       Date: 2022.10.17
  */
 #include "Artila-Matrix310.h"
-
+extern void setLed(int pin, int status);
 void setReadyLed(int state){
     if(state) {
         // LED ON

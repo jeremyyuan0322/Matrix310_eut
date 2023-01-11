@@ -48,6 +48,7 @@
 extern "C" {
 #endif
 extern void setReadyLed(int state);
+extern void setWifiLed(int state);
 extern void setLed(int pin, int status);
 extern void WizReset(void);
 extern void initGPIO(void);

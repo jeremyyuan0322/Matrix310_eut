@@ -1,5 +1,5 @@
-#ifndef SWITCH_H
-#define SWITCH_H
+#ifndef RS232_H
+#define RS232_H
 
 #ifdef __cplusplus//_cplusplus
 // #include <Arduino.h>
@@ -9,8 +9,7 @@
 
 extern "C" {
 #endif
-extern int readSwitch();
-extern void testRotarySW();
+extern void testRS232();
 #ifdef __cplusplus
 }
 #endif//_cplusplus
