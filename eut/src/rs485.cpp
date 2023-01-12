@@ -30,15 +30,12 @@ void testRS485() {
   delay(1);
   unsigned long Time485;
   Time485 = millis();
-  // Serial.print("485time: ");
-  // Serial.println(Time485);
   while (1) {
     if (Serial2.available()) {
-      // Serial.printf("ava: %i\n", Serial2.available());
-      //Read data from Serial2 and save to buffer.
       readStr = Serial2.readString();
       Serial2.flush();
       delay(10);
+      readStr.trim();
       readLen = readStr.length();
       Serial.printf("data receive: %i\n", readLen);
       Serial.printf("read: %s\n", readStr);
@@ -50,15 +47,13 @@ void testRS485() {
     }
   }
   if (readLen > 0) {
-    Serial.println("RS485 test is OK");
-    summary[RS485][1] = '0';
-    // if (writeMsg.compareTo(readStr.trim()) == 0) {
-    //   Serial.println("RS485 test is OK");
-    //   summary[RS485][1] = '0';
-    // } else {
-    //   Serial.println("RS485 test is failed");
-    //   summary[RS485][1] = '1';
-    // }
+    if (writeMsg.compareTo(readStr) == 0) {
+      Serial.println("RS485 test is OK");
+      summary[RS485][1] = '0';
+    } else {
+      Serial.println("RS485 test is failed");
+      summary[RS485][1] = '1';
+    }
   } else {
     Serial.println("RS485 test is failed");
     summary[RS485][1] = '1';
