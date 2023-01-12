@@ -10,6 +10,8 @@
 #include "src/rs232.h"
 #include "src/dio.h"
 #include "src/sdcard.h"
+#include "src/rs485.h"
+#include "src/wifitest.h"
 
 
 char summary[7][32];
@@ -91,9 +93,15 @@ void loop() {
         break;      
       case 'd':
         Serial.println("RS-485 Test");
+        summary[RS485][0] = '1';
+        testRS485();
+        printResult();
         break;
       case 'e':
         Serial.println("Wifi Test");
+        summary[WIFI][0] = '1';
+        testWifi();
+        printResult();
         break;
       case 'f':
         Serial.println("Ethernet Test");
