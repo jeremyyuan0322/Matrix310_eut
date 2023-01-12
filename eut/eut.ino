@@ -12,6 +12,7 @@
 #include "src/sdcard.h"
 #include "src/rs485.h"
 #include "src/wifitest.h"
+#include "src/eth.h"
 
 
 char summary[7][32];
@@ -105,6 +106,9 @@ void loop() {
         break;
       case 'f':
         Serial.println("Ethernet Test");
+        summary[ETH][0] = '1';
+        testEth();
+        printResult();
         break;
       case 'g':
         Serial.println("SDcard Test");
