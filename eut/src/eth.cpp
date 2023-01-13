@@ -48,12 +48,23 @@ void ethServerConnect() {
   // Use EthernetClient class to create TCP connections
   EthernetClient client;
   const int httpPort = 80;
-  client.setConnectionTimeout(5000);
-  if (!client.connect(myServer, httpPort)) {
-    Serial.println("connection failed");
-    testEthFail();
-    return;
+  // client.setConnectionTimeout(5000);
+  unsigned long connectTimeout = millis();
+  while (1) {
+    if (client.connect(myServer, httpPort)) {
+      break;
+    }
+    if (millis() - connectTimeout > 3000) {
+      Serial.println("Connect Timeout !");
+      testEthFail();
+      return;
+    }
   }
+  // if (!client.connect(myServer, httpPort)) {
+  //   Serial.println("connection failed");
+  //   testEthFail();
+  //   return;
+  // }
 
   // We now create a URI for the request
   String url = "OK";
