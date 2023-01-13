@@ -1,12 +1,12 @@
+#include "HardwareSerial.h"
 /*
 Used for communication between the Matrix310 and a computer or other devices. 
-Matrix310 can use SERIAL1 PINS or SERIAL2 PINS to achieve RS232 communication.
+Matrix310 can use SERIAL1 PINS or Serial1 PINS to achieve RS232 communication.
 Our example use RS232 with null modem to simulate the multi device communication.
 */
 #include "rs232.h"
 extern char summary[7][32];
 void testRS232() {
-  // char writeMsg[] = "Message\0";
   String writeMsg = "Message";
   String readStr = "";
   char buf[64];
@@ -21,23 +21,35 @@ void testRS232() {
   delay(10);
   Serial.printf("data send: %i\n", writeLen);
   Serial.printf("write: %s\n", writeMsg);
-  if (Serial1.available() > 0) {
-    //Read data from Serial1 and save to buffer.
-    readStr = Serial1.readString();
-    Serial1.flush();
-    readLen = readStr.length();
-    Serial.printf("data receive: %i\n", readLen);
-    Serial.printf("read: %s\n", readStr);
-  } else {
-    Serial.println("read nothing!");
-  }
 
+  unsigned long Time232;
+  Time232 = millis();
+  while (1) {
+    if (Serial1.available()) {
+      readStr = Serial1.readString();
+      Serial1.flush();
+      delay(10);
+      readStr.trim();
+      readLen = readStr.length();
+      Serial.printf("data receive: %i\n", readLen);
+      Serial.printf("read: %s\n", readStr);
+      break;
+    }
+    if (millis() - Time232 > 5000) {
+      Serial.println("read nothing!");
+      break;
+    }
+  }
   if (readLen > 0) {
-    //Print the data from buffer.
-    Serial.println(readStr);
-    if(writeMsg.compareTo(readStr)==0){
+    if (writeMsg.compareTo(readStr) == 0) {
       Serial.println("RS232 test is OK");
       summary[RS232][1] = '0';
+    } else {
+      Serial.println("RS232 test is failed");
+      summary[RS232][1] = '1';
     }
+  } else {
+    Serial.println("RS232 test is failed");
+    summary[RS232][1] = '1';
   }
 }

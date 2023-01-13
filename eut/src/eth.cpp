@@ -1,50 +1,97 @@
+#include <sys/_types.h>
 #include "eth.h"
 extern char summary[7][32];
+
 void testEth() {
   // the MAC (Media access control) address for the device (array of 6 bytes). this is the Ethernet hardware address of your Matrix310.
   byte mac[] = { 0x98, 0xf4, 0xab, 0x17, 0x24, 0xc4 };//98:f4:ab:17:24:c4
-  // the IP address of the device (array of 4 bytes)
-  IPAddress ip(0, 0, 0, 0);
-  IPAddress myserver(192, 168, 1, 1);
-  
   Ethernet.init(LAN_CS);
   // start the Ethernet connection:
   Serial.println("Initialize Ethernet with DHCP:");
   //Matrix310 tries connecting the internet with DHCP
-  if (Ethernet.begin(mac) == 0) {
+  unsigned long connectTimeout = 1000;
+  if (Ethernet.begin(mac, connectTimeout) == 0) {
     //Fail to use DHCP
     Serial.println("Failed to configure Ethernet using DHCP");
     // Check for Ethernet hardware present
     if (Ethernet.hardwareStatus() == EthernetNoHardware) {
       Serial.println("Ethernet shield was not found.  Sorry, can't run without hardware. :(");
-      while (true) {
-        delay(1);  // do nothing, no point running without Ethernet hardware
-      }
+      testEthFail();
+      return;
     }
     if (Ethernet.linkStatus() == LinkOFF) {
       Serial.println("Ethernet cable is not connected.");
+      testEthFail();
+      return;
     }
-    // try to configure using IP address instead of DHCP:
-    Ethernet.begin(mac, ip);
-  } else {  //Matrix310 already connect to the internet
+    else {
+      testEthFail();
+      return;
+    }
+  } 
+  else {  //Matrix310 already connect to the internet
     Serial.print("  DHCP assigned IP ");
     Serial.println(Ethernet.localIP());
   }
   // give the Ethernet shield a second to initialize:
   delay(1000);
 
-  //Ping
-  bool ret = Ping.ping(myserver, 3);
-  float avg_time_ms = Ping.averageTime();
-  if(ret) {
-    Serial.println("Ping Success");
-    Serial.printf("Ping avg time: %f\n", avg_time_ms);
+  ethServerConnect();
+}
 
-    Serial.println("Wifi test is OK");
+void ethServerConnect() {
+  IPAddress myServer(192, 168, 0, 10);
+  Serial.print("connecting to ");
+  Serial.println(myServer);
+  Serial.println();
+
+  // Use EthernetClient class to create TCP connections
+  EthernetClient client;
+  const int httpPort = 80;
+  client.setConnectionTimeout(5000);
+  if (!client.connect(myServer, httpPort)) {
+    Serial.println("connection failed");
+    testEthFail();
+    return;
+  }
+
+  // We now create a URI for the request
+  String url = "OK";
+
+  Serial.print("Requesting msg: ");
+  Serial.println(url);
+
+  // This will send the request to the server
+  client.print("url");
+
+  // Read all the lines of the reply from server and print them to Serial
+  unsigned long timeout = millis();
+  String clientReturn;
+  while (1) {
+    if (client.available()) {
+      clientReturn = client.readString();
+      Serial.printf("Msg: %s\n", clientReturn);
+      break;
+    }
+    if (millis() - timeout > 3000) {
+      Serial.println(">>> Client Timeout !");
+      client.stop();
+      testEthFail();
+      return;
+    }
+  }
+  Serial.println();
+  Serial.println("closing connection");
+
+  if (url.compareTo(clientReturn) == 0) {
+    Serial.println("Ethernet test is OK");
     summary[ETH][1] = '0';
   } else {
-    Serial.println("Ping Error");
-    Serial.println("Wifi test is failed");
-    summary[ETH][1] = '1';
+    testEthFail();
   }
+}
+
+void testEthFail(){
+  Serial.println("Ethernet test is failed");
+  summary[ETH][1] = '1';
 }

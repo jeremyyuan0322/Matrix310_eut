@@ -1,19 +1,6 @@
 #include <string.h>
 /*
 https://github.com/espressif/arduino-esp32/blob/master/libraries/SD/examples/SD_Test/SD_Test.
-
-listDir
-createDir
-removeDir
-
-readFile
-writeFile
-appendFile
-renameFile
-deleteFile
-testFileIO
-
-test_sd
 */
 
 //The SD library allows for reading from and writing to SD cards, the library also include "FS.h" and "SPI.h".
@@ -64,6 +51,10 @@ void testSD(){
     if(strcmp(readStr.c_str(), writeMeg)==0){
       Serial.println("SDcard test is OK");
       summary[SDCARD][1] = '0';
+    }
+    else {
+      Serial.println("SDcard test is failed");
+      summary[SDCARD][1] = '1';
     }
     
 

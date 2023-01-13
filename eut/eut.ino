@@ -22,13 +22,12 @@ const char* helpMsg =
   "  b) DIO test\n"
   "  c) RS232 test\n"
   "  d) RS485 test\n"
-  "  e) Wifi test\n"//use CRC
+  "  e) Wifi test\n"
   "  f) Ethernet test\n"
   "  g) SDcard test\n"//write and read
   "  i) Switch test\n"
   "  h) Command list\n"
   "  r) Restart\n";  //matrix310重啟
-
 //show all command
 void printHelp() {
   Serial.printf("%s", helpMsg);
@@ -40,6 +39,35 @@ void printResult() {
   for (int i = 0; i < ALL; i++) {
     Serial.printf("%s: %s\n", COMPONENT_STR[i], summary[i]);
   }
+}
+
+void reboot(){
+  delay(1000);
+  ESP.restart();
+}
+
+void testAll(){
+  Serial.println("DIO Test");
+  summary[DIO][0] = '1';
+  testDio();
+  Serial.println("RS232 Test");
+  summary[RS232][0] = '1';
+  testRS232();
+  Serial.println("RS485 Test");
+  summary[RS485][0] = '1';
+  testRS485();
+  Serial.println("Wifi Test");
+  summary[WIFI][0] = '1';
+  testWifi();
+  Serial.println("Ethernet Test");
+  summary[ETH][0] = '1';
+  testEth();
+  Serial.println("SDcard Test");
+  summary[SDCARD][0] = '1';
+  testSD();
+  Serial.println("Switch Test");
+  summary[SW][0] = '1';
+  testRotarySW();
 }
 
 //initial summary array
@@ -76,56 +104,67 @@ void loop() {
     strCMD = Serial.readString();
     Serial.println("<<< " + strCMD);
 
-    switch (strCMD[0]) {//且strCMD[2]==\n
+    switch (strCMD[0]) {
       case 'a':
         Serial.println("Test all");
+        testAll();
+        printResult();
         break;
       case 'b':
         Serial.println("DIO Test");
         summary[DIO][0] = '1';
         testDio();
         printResult();
+        printHelp();
         break;
       case 'c':
         Serial.println("RS-232 Test");
         summary[RS232][0] = '1';
         testRS232();
         printResult();
+        printHelp();
         break;      
       case 'd':
         Serial.println("RS-485 Test");
         summary[RS485][0] = '1';
         testRS485();
         printResult();
+        printHelp();
         break;
       case 'e':
         Serial.println("Wifi Test");
         summary[WIFI][0] = '1';
         testWifi();
         printResult();
+        printHelp();
         break;
       case 'f':
         Serial.println("Ethernet Test");
         summary[ETH][0] = '1';
         testEth();
         printResult();
+        printHelp();
         break;
       case 'g':
         Serial.println("SDcard Test");
         summary[SDCARD][0] = '1';
         testSD();
         printResult();
+        printHelp();
         break;
       case 'i':
+        Serial.println("Switch Test");
         summary[SW][0] = '1';
         testRotarySW();
         printResult();
+        printHelp();
         break;
       case 'h':
         printHelp();
         break;
       case 'r':
-        Serial.println("Restart");
+        Serial.println("Reboot");
+        reboot();
         break;
       default:
         Serial.printf("Command %c is not found!!\n", strCMD[0]);

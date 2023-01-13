@@ -56,7 +56,6 @@ void initGPIO()
     pinMode(SW_1, INPUT);
     pinMode(SW_2, INPUT);
     pinMode(SW_4, INPUT);
-    
     // make sure LED OFF, if possible
     // setReadyLed(0);
     // digitalWrite(LED_WIFI, LOW);
