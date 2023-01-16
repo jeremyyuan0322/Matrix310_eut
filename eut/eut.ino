@@ -37,7 +37,14 @@ void printHelp() {
 void printResult() {
   Serial.println("===== Test Summary =====");
   for (int i = 0; i < ALL; i++) {
-    Serial.printf("%s: %s\n", COMPONENT_STR[i], summary[i]);
+  if (summary[i][0]== '1' && summary[i][1] == '0') {
+    Serial.printf("%s: %s\n", COMPONENT_STR[i], "OK");
+  }
+  else if(summary[i][0]== '1' && summary[i][1] == '1'){
+    Serial.printf("%s: %s\n", COMPONENT_STR[i], "FAIL");
+  }
+  
+    // Serial.printf("%s: %s\n", COMPONENT_STR[i], summary[i]);
   }
 }
 

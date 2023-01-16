@@ -16,7 +16,7 @@ void testWifi() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
-    if (millis() - startTime > 5000) {
+    if (millis() - startTime > 3000) {
       testWifiFail();
       return;
     }

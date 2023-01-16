@@ -9,7 +9,7 @@ void testEth() {
   // start the Ethernet connection:
   Serial.println("Initialize Ethernet with DHCP:");
   //Matrix310 tries connecting the internet with DHCP
-  unsigned long connectTimeout = 1000;
+  unsigned long connectTimeout = 2000;
   if (Ethernet.begin(mac, connectTimeout) == 0) {
     //Fail to use DHCP
     Serial.println("Failed to configure Ethernet using DHCP");
