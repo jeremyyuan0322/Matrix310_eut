@@ -15,12 +15,14 @@ void testSD(){
 
   if(!SD.begin(SD_CS, spi)){
         Serial.println("Card Mount Failed");
+        testSDFail();
         return;
     }
     uint8_t cardType = SD.cardType();
 
     if(cardType == CARD_NONE){
         Serial.println("No SD card attached");
+        testSDFail();
         return;
     }
     //Show SD card type
@@ -53,8 +55,7 @@ void testSD(){
       summary[SDCARD][1] = '0';
     }
     else {
-      Serial.println("SDcard test is failed");
-      summary[SDCARD][1] = '1';
+      testSDFail();
     }
     
 
@@ -66,12 +67,12 @@ void readFile(fs::FS &fs, const char * path){
     File file = fs.open(path);
     if(!file){
         Serial.println("Failed to open file for reading");
+        testSDFail();
         return;
     }
 
     Serial.print("Read from file: ");
     while(file.available()){
-        // Serial.write(file.read());
         readStr = file.readString();
     }
     Serial.println(readStr);
@@ -85,12 +86,15 @@ void writeFile(fs::FS &fs, const char * path, const char * message){
     File file = fs.open(path, FILE_WRITE);//file write
     if(!file){
         Serial.println("Failed to open file for writing");
+        testSDFail();
         return;
     }
     if(file.print(message)){
         Serial.println("File written\n");
     } else {
         Serial.println("Write failed");
+        testSDFail();
+        return;
     }
     file.close();
 }
@@ -102,5 +106,12 @@ void deleteFile(fs::FS &fs, const char * path){
         Serial.println("File deleted");
     } else {
         Serial.println("Delete failed");
+        testSDFail();
+        return;
     }
+}
+
+void testSDFail(){
+  Serial.println("SDcard test is failed");
+  summary[SDCARD][1] = '1';
 }

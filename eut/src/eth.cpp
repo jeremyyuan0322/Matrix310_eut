@@ -4,7 +4,7 @@ extern char summary[7][32];
 
 void testEth() {
   // the MAC (Media access control) address for the device (array of 6 bytes). this is the Ethernet hardware address of your Matrix310.
-  byte mac[] = { 0x98, 0xf4, 0xab, 0x17, 0x24, 0xc4 };//98:f4:ab:17:24:c4
+  byte mac[] = { 0x98, 0xf4, 0xab, 0x17, 0x24, 0xc5 };//98:f4:ab:17:24:c4
   Ethernet.init(LAN_CS);
   // start the Ethernet connection:
   Serial.println("Initialize Ethernet with DHCP:");

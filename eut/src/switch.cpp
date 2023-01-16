@@ -14,7 +14,7 @@ int readSwitch(){
 //test rotary switch
 void testRotarySW() {
     int bulleye = random(0, 7);
-    unsigned int interval = 20000;
+    unsigned int interval = 25000;
     unsigned long timeSW = 0;
     Serial.printf("Please change rotary switch to %d\n", bulleye);
     timeSW = millis();

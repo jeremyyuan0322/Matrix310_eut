@@ -12,6 +12,7 @@ extern void testSD();
 extern void readFile(fs::FS &fs, const char * path);
 extern void writeFile(fs::FS &fs, const char * path, const char * message);
 extern void deleteFile(fs::FS &fs, const char * path);
+extern void testSDFail();
 #ifdef __cplusplus
 }
 #endif//_cplusplus
