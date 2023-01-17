@@ -1,8 +1,5 @@
-/*
-Used for communication between the Matrix-310 and a computer or other devices. 
-Matrix310 uses SERIAL2 PINS to achieve RS485 communication.
-*/
 #include "rs485.h"
+
 extern char summary[7][32];
 void testRS485() {
   String writeMsg = "Message";

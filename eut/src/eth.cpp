@@ -1,4 +1,3 @@
-#include <sys/_types.h>
 #include "eth.h"
 extern char summary[7][32];
 
@@ -60,11 +59,6 @@ void ethServerConnect() {
       return;
     }
   }
-  // if (!client.connect(myServer, httpPort)) {
-  //   Serial.println("connection failed");
-  //   testEthFail();
-  //   return;
-  // }
 
   // We now create a URI for the request
   String url = "OK";

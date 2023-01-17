@@ -1,6 +1,5 @@
-#include "esp32-hal.h"
-#include <sys/_types.h>
 #include "wifitest.h"
+
 extern char summary[7][32];
 void testWifi() {
   const char *ssid = "AOQTP";

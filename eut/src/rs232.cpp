@@ -1,10 +1,5 @@
-#include "HardwareSerial.h"
-/*
-Used for communication between the Matrix310 and a computer or other devices. 
-Matrix310 can use SERIAL1 PINS or Serial1 PINS to achieve RS232 communication.
-Our example use RS232 with null modem to simulate the multi device communication.
-*/
 #include "rs232.h"
+
 extern char summary[7][32];
 void testRS232() {
   String writeMsg = "Message";

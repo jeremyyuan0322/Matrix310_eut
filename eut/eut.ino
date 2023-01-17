@@ -27,7 +27,7 @@ const char* helpMsg =
   "  g) SDcard test\n"//write and read
   "  i) Switch test\n"
   "  h) Command list\n"
-  "  r) Restart\n";  //matrix310重啟
+  "  r) Restart\n";  //matrix310 restart
 //show all command
 void printHelp() {
   Serial.printf("%s", helpMsg);
@@ -43,8 +43,6 @@ void printResult() {
   else if(summary[i][0]== '1' && summary[i][1] == '1'){
     Serial.printf("%s: %s\n", COMPONENT_STR[i], "FAIL");
   }
-  
-    // Serial.printf("%s: %s\n", COMPONENT_STR[i], summary[i]);
   }
 }
 
@@ -94,6 +92,7 @@ void setup() {
   const char _NAME[] = "AOQTP";
   const char _VERSION[] = "0.1.0";
   initGPIO();
+  WizReset();
   Serial.begin(115200);
   while (!Serial)
     ;
@@ -106,8 +105,6 @@ void setup() {
 
   setReadyLed(HIGH);
 
-  //測試項目全部輸出0: 代表還沒開始測試
-  printResult();
   printHelp();
 }
 
