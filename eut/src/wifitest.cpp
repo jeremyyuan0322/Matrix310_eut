@@ -1,10 +1,11 @@
+#include "esp32-hal-gpio.h"
 #include "wifitest.h"
 
 extern char summary[7][32];
 void testWifi() {
   const char *ssid = "AOQTP";
   const char *password = "tw27477816";
-  
+  setWifiLed(HIGH);
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
@@ -20,6 +21,7 @@ void testWifi() {
       return;
     }
   }
+  setWifiLed(LOW);
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.println("IP address: ");

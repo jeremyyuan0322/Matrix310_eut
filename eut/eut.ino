@@ -145,6 +145,7 @@ void loop() {
         Serial.println("Wifi Test");
         summary[WIFI][0] = '1';
         testWifi();
+        setWifiLed(LOW);
         printResult();
         printHelp();
         break;

@@ -12,7 +12,6 @@ bool stage2 = false;
 void testDio() {
   Serial.printf("DO1: %i\n", digitalRead(DO1));
   if (digitalRead(DO1) == HIGH) {
-    setLed(LED_WIFI, LOW);  //亮
     Serial.println("Set DO1 to LOW");
     setDO(LOW);
     delay(100);
@@ -23,7 +22,6 @@ void testDio() {
     }
   } 
   else {
-    setLed(LED_WIFI, HIGH);
     Serial.println("Set DO1 to HIGH");
     setDO(HIGH);
     delay(100);
