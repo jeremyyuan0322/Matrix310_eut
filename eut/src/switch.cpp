@@ -1,6 +1,3 @@
-#include "esp32-hal.h"
-#include <sys/_intsup.h>
-#include <sys/_types.h>
 #include "switch.h"
 extern char summary[7][32];
 int readSwitch() {

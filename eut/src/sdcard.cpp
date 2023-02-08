@@ -57,8 +57,8 @@ void testSD(){
     else {
       testSDFail();
     }
-    
-
+    SD.end();
+    spi.end();
 }
 void readFile(fs::FS &fs, const char * path){
     

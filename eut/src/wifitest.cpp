@@ -1,29 +1,44 @@
-#include "esp32-hal-gpio.h"
 #include "wifitest.h"
 
 extern char summary[7][32];
 void testWifi() {
   const char *ssid = "AOQTP";
   const char *password = "tw27477816";
+  // bool wifiOK = false;
   setWifiLed(HIGH);
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
   WiFi.mode(WIFI_STA);  // Set Wifi mode
 
-  unsigned long startTime = millis();
+
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-    if (millis() - startTime > 3000) {
-      testWifiFail();
-      return;
+
+  for (int i = 0; i < 3; i++) {
+    unsigned long startTime = millis();
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+      if (WiFi.status() == WL_CONNECTED) {
+        break;
+        break;
+      }
+      if (millis() - startTime > 3000) {
+        break;
+      }
     }
   }
+  if(WiFi.status() != WL_CONNECTED)
+  {
+    testWifiFail();
+    return;
+  }
+
   setWifiLed(LOW);
   Serial.println("");
   Serial.println("WiFi connected");
+  Serial.print("WiFi RSSI: ");
+  Serial.println(WiFi.RSSI());
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
   delay(1000);
@@ -82,7 +97,7 @@ void wifiServerConnect() {
     testWifiFail();
   }
 }
-void testWifiFail(){
+void testWifiFail() {
   Serial.println("Wifi test is failed");
   summary[WIFI][1] = '1';
 }

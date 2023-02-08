@@ -1,5 +1,3 @@
-#include "HardwareSerial.h"
-#include "esp32-hal-gpio.h"
 //DO*1, DI*2
 //HIGH: 1, LOW: 0
 #include "dio.h"
